@@ -73,6 +73,24 @@ async function run() {
         });
 
 
+        // Getting All the Members 
+        app.get('/allMembers', async (req, res) => {
+            const query = {};
+            const request = await memberCollection.find(query).toArray();
+            res.send(request);
+        });
+
+
+        // Delete A Member
+        app.delete('/allMembers/:id', async (req, res) => {
+            const id = req.params.id;
+            console.log(id);
+            const query = { _id: ObjectId(id) };
+            const result = await memberCollection.deleteOne(query);
+            res.send(result);
+        });
+
+
         // Posting Blog 
         app.post('/postBlog', async (req, res) => {
             const post = req.body;
@@ -115,7 +133,6 @@ async function run() {
 
         app.get('/approvedBlogs/:email', async (req, res) => {
             const email = req.params.email;
-            console.log(email)
             const query = { authorEmail: email };
             const request = await approvedBlogsCollection.find(query).toArray();
             res.send(request);
