@@ -89,12 +89,37 @@ async function run() {
         });
 
 
+        // Deleting Declined Blog Request 
+        app.delete('/postBlog/:id', async (req, res) => {
+            const id = req.params.id;
+            const query = { _id: ObjectId(id) };
+            const result = await blogsCollection.deleteOne(query);
+            res.send(result);
+        });
+
+
         // Sending Approved Post's to Approved Blog Collection
         app.post('/approvedBlogs', async (req, res) => {
             const post = req.body;
             const sendPost = await approvedBlogsCollection.insertOne(post);
             res.send(sendPost);
-        })
+        });
+
+        // Getting Approved Posts
+        app.get('/approvedBlogs', async (req, res) => {
+            const query = {};
+            const post = await approvedBlogsCollection.find(query).toArray();
+            res.send(post);
+        });
+
+
+        app.get('/approvedBlogs/:email', async (req, res) => {
+            const email = req.params.email;
+            console.log(email)
+            const query = { authorEmail: email };
+            const request = await approvedBlogsCollection.find(query).toArray();
+            res.send(request);
+        });
 
 
 
