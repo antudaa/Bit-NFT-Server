@@ -84,7 +84,6 @@ async function run() {
         // Delete A Member
         app.delete('/allMembers/:id', async (req, res) => {
             const id = req.params.id;
-            console.log(id);
             const query = { _id: ObjectId(id) };
             const result = await memberCollection.deleteOne(query);
             res.send(result);
